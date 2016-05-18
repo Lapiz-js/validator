@@ -33,7 +33,10 @@ Lapiz.Test("Validator/Div", ["Validator/Min"], function(t){
   var validator = Lapiz.Validator({name:"Name|required"});
   var errors = validator({name:""}, Lapiz.Validator.format.divs);
 
-  errors && typeof(errors) === "string" || t.error("Validator should return a string");
+  errors                             || t.error("Validator should return errors");
+  errors instanceof DocumentFragment || t.error("Validator should return a DocumentFragment");
+  var errText = errors.querySelector('div').textContent;
+  errText === "Name is required"     || t.errors('Expected "Name is required"');
 });
 
 Lapiz.Test("Validator/Max", ["Validator/Div"], function(t){
